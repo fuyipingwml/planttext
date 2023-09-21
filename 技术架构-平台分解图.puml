@@ -1,4 +1,4 @@
-'技术架构-平台分解图1
+'技术架构-平台分解图12
 @startuml
 !define RECTANGLE package
 RECTANGLE "用户" {
