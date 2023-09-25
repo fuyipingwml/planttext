@@ -1,0 +1,35 @@
+@startuml
+title 电商平台商品查询流程的技术组件交互
+
+participant "用户请求负载均衡" as UserLB
+participant "商品查询Web服务" as ProductWeb
+participant "商品信息缓存" as ProductCache
+participant "商品数据库读" as ProductDBRead
+participant "消息队列-缓存更新" as CacheUpdateMQ
+
+UserLB -> ProductWeb : 用户查询商品请求
+activate ProductWeb
+ProductWeb -> ProductCache : 尝试从缓存获取商品信息
+activate ProductCache
+ProductCache --> ProductWeb : 缓存未命中
+deactivate ProductCache
+
+ProductWeb -> ProductDBRead : 从数据库读取商品信息
+activate ProductDBRead
+ProductDBRead --> ProductWeb : 返回商品信息
+deactivate ProductDBRead
+
+ProductWeb -> ProductCache : 更新商品信息到缓存
+activate ProductCache
+ProductCache --> ProductWeb : 缓存更新成功
+deactivate ProductCache
+
+ProductWeb -> CacheUpdateMQ : 发送缓存更新消息
+activate CacheUpdateMQ
+CacheUpdateMQ --> ProductWeb : 消息确认
+deactivate CacheUpdateMQ
+
+ProductWeb -> UserLB : 返回商品信息
+deactivate ProductWeb
+
+@enduml
