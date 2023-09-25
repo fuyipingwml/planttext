@@ -1,0 +1,52 @@
+@startuml
+
+!define RECTANGLE class
+
+package "用户界面层" {
+  [Vue]
+  [html5]
+  [Apache]
+}
+
+package "API网关层" {
+  [Nginx]
+}
+
+package "业务逻辑层" {
+  [负载均衡器]
+  [Spring Boot]
+}
+
+package "中间件层" {
+  [Kafka]
+  [RabbitMQ]
+  [Redis]
+}
+
+package "数据存储层" {
+  [MySQL数据库]
+  [ElasticSearch]
+}
+
+package "数据中心层" {
+  [AWS]
+}
+
+[Vue] -down-> [Nginx]
+[html5] -down-> [Nginx]
+[Apache] -down-> [Nginx]
+[Nginx] -down-> [负载均衡器]
+[负载均衡器] -down-> [Spring Boot]
+[Spring Boot] -down-> [Kafka]
+[Spring Boot] -down-> [RabbitMQ]
+[Spring Boot] -down-> [Redis]
+[Kafka] -down-> [MySQL数据库]
+[RabbitMQ] -down-> [ElasticSearch]
+[Redis] -down-> [ElasticSearch]
+[MySQL数据库] -down-> [AWS]
+[ElasticSearch] -down-> [AWS]
+
+'[移动应用] -[hidden]-> [Redis]
+'[Web浏览器] -[hidden]-> [Kafka]
+
+@enduml
