@@ -1,0 +1,46 @@
+@startuml
+
+!define RECTANGLE package
+!define DATABASE entity
+
+RECTANGLE "数据中心" {
+  DATABASE "用户数据库" as UserDB
+  DATABASE "商品数据库" as ProductDB
+  DATABASE "订单数据库" as OrderDB
+  DATABASE "库存数据库" as InventoryDB
+}
+
+RECTANGLE "云存储" {
+  DATABASE "访问日志" as AccessLogDB
+  DATABASE "业务日志" as BusinessLogDB
+  DATABASE "图片和视频存储" as MediaDB
+}
+
+RECTANGLE "用户终端" {
+  DATABASE "本地缓存" as LocalCache
+}
+
+RECTANGLE "第三方服务" {
+  DATABASE "支付网关" as PaymentGateway
+  DATABASE "物流信息" as LogisticsDB
+}
+
+'UserDB -[hidden]-> ProductDB
+'ProductDB -[hidden]-> OrderDB
+'OrderDB -[hidden]-> AccessLogDB
+'AccessLogDB -[hidden]-> BusinessLogDB
+'BusinessLogDB -[hidden]-> MediaDB
+'MediaDB -[hidden]-> LocalCache
+'LocalCache -[hidden]-> PaymentGateway
+'PaymentGateway -[hidden]-> LogisticsDB
+
+UserDB --> BusinessLogDB : "用户行为\n记录"
+ProductDB --> MediaDB : "商品图片\n和视频"
+OrderDB --> BusinessLogDB : "订单状态\n变更"
+InventoryDB --> BusinessLogDB : "库存变更\n记录"
+AccessLogDB --> LocalCache : "用户行为\n缓存"
+MediaDB --> LocalCache : "商品图片\n缓存"
+OrderDB --> PaymentGateway : "支付信息\n校验"
+PaymentGateway --> LogisticsDB : "支付确认后\n更新物流"
+
+@enduml

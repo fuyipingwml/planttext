@@ -1,0 +1,42 @@
+@startuml
+
+!define RECTANGLE package
+!define DATABASE entity
+!define CLOUD cloud
+!define ACTOR actor
+
+ACTOR "用户" as User
+ACTOR "管理员" as Admin
+CLOUD "防火墙" as Firewall
+
+RECTANGLE "数据中心" {
+  DATABASE "用户数据库\n(加密)" as UserDB
+  DATABASE "商品数据库\n(加密)" as ProductDB
+  DATABASE "订单数据库\n(加密)" as OrderDB
+}
+
+RECTANGLE "云存储" {
+  DATABASE "日志存储\n(加密)" as LogDB
+  DATABASE "图片存储\n(只读)" as ImageDB
+}
+
+User --> Firewall : "通过HTTPS访问"
+Admin --> Firewall : "通过VPN访问"
+Firewall --> ProductDB : "受限访问\n(认证+授权)"
+OrderDB --> LogDB :"安全审计日志"
+ProductDB --> LogDB :"安全审计日志"
+UserDB --> LogDB :"安全审计日志"
+ImageDB -> LogDB : "访问日志"
+
+
+'User -[hidden]-> Admin
+'Admin -[hidden]-> Firewall
+'Firewall -[hidden]-> ProductDB
+'UserDB -[hidden]-> ImageDB
+'ProductDB -[hidden]-> UserDB
+'OrderDB -[hidden]-> LogDB
+'LogDB -[hidden]-> ImageDB
+
+
+
+@enduml
