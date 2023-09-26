@@ -1,39 +1,29 @@
 @startuml
 
-!define RECTANGLE package
-!define DATABASE entity
-!define CLOUD cloud
-!define ACTOR actor
+title 电商数据生命周期
 
-ACTOR "用户" as User
-ACTOR "管理员" as Admin
-CLOUD "防火墙" as Firewall
-RECTANGLE "数据中心" {
-  DATABASE "用户数据库\n(加密)" as UserDB
-  DATABASE "商品数据库\n(加密)" as ProductDB
-  DATABASE "订单数据库\n(加密)" as OrderDB
-}
-RECTANGLE "云存储" {
-  DATABASE "日志存储\n(加密)" as LogDB
-  DATABASE "图片存储\n(只读)" as ImageDB
-}
+start
 
-'User -[hidden]-> Admin
-'Admin -[hidden]-> Firewall
-'Firewall -[hidden]-> ProductDB
-'UserDB -[hidden]-> ImageDB
-'ProductDB -[hidden]-> UserDB
-'OrderDB -[hidden]-> LogDB
-'LogDB -[hidden]-> ImageDB
+:用户浏览商品;
 
-User --> Firewall : "通过HTTPS访问"
-Admin -> Firewall : "通过VPN访问"
-'Firewall --> UserDB : "受限访问\n(认证+授权)"
-Firewall --> ProductDB : "受限访问\n(认证+授权)"
-'Firewall -> OrderDB : "受限访问\n(认证+授权)"
-UserDB --> LogDB : "安全审计日志"
-ProductDB --> LogDB : "安全审计日志"
-OrderDB --> LogDB : "安全审计日志"
-ImageDB -> LogDB : "访问日志"
+:用户加入购物车;
+
+:用户提交订单;
+
+:系统录入订单数据;
+
+:对订单数据进行校验;
+
+:将订单数据存入数据库;
+
+:对订单数据进行统计分析;
+
+:管理员访问和导出订单数据;
+
+:部分订单数据被存档;
+
+:部分无用订单数据被删除;
+
+stop
 
 @enduml

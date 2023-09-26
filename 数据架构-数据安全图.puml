@@ -1,7 +1,7 @@
 @startuml
 
 !define RECTANGLE package
-!define DATABASE entity
+'!define DATABASE entity
 !define CLOUD cloud
 !define ACTOR actor
 
