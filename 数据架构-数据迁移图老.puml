@@ -1,0 +1,27 @@
+@startuml
+'!define RECTANGLE class
+'!define DATABASE database
+
+database "订单数据库" as OrderDB
+database "客户数据库" as CustomerDB
+database "库存数据库" as InventoryDB
+database "分析数据库" as AnalyticsDB
+database "历史数据库" as HisDB
+
+'class "ETL1" as ETL
+'class "数据清洗" as DataCleaning
+
+
+OrderDB -down-> [ETL] : "订单数据"
+CustomerDB -down-> [ETL] : "客户信息"
+InventoryDB -down-> [ETL] : "库存信息"
+
+'ETL -down-> DataCleaning : "原始数据"
+[ETL] -down-> AnalyticsDB : "清洗后数据"
+AnalyticsDB -> HisDB
+
+'OrderDB -down-> DataArchiving : "历史订单"
+'CustomerDB -down-> DataArchiving : "历史客户信息"
+'DataArchiving -down-> AnalyticsDB : "归档数据"
+
+@enduml
