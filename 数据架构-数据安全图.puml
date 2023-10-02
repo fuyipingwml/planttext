@@ -1,4 +1,11 @@
 @startuml
+<<<<<<< HEAD
+=======
+
+!define RECTANGLE package
+'!define DATABASE entity
+!define CLOUD cloud
+>>>>>>> de185696184bfa456b2895a722e667017886313a
 !define ACTOR actor
 '!define USECASE ellipse
 !define RECTANGLE package

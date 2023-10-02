@@ -1,4 +1,5 @@
 @startuml
+<<<<<<< HEAD
 !define ACTOR actor
 '!define USECASE ellipse
 !define RECTANGLE package
@@ -43,6 +44,17 @@ UC2 --> DE2 : 写
 UC3 --> DE2 : 读/写
 UC4 --> DE3 : 读/写
 UC5 --> DE4 : 读/写
+=======
+
+!define RECTANGLE package
+RECTANGLE "数据中心" {
+[订单数据库]
+[客户数据库]
+[库存数据库]
+
+}
+
+>>>>>>> de185696184bfa456b2895a722e667017886313a
 
 ' 管理员对所有数据实体都有读/写权限
 admin --> DE1 : 读/写
