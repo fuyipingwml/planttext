@@ -1,29 +1,42 @@
 @startuml
+!define ACTOR actor
+'!define USECASE ellipse
 
-title 电商数据生命周期
+' 参与者定义
+ACTOR "顾客" as Customer
+ACTOR "管理员" as Admin
+ACTOR "支付处理方" as PaymentProcessor
+ACTOR "物流合作方" as ShippingPartner
 
-start
+' 用例定义
+USECASE "读取产品数据" as UC1
+USECASE "读取/写入订单数据" as UC2
+USECASE "完全访问用户数据" as UC3
+USECASE "读取支付数据" as UC4
+USECASE "读取/写入支付数据" as UC5
+USECASE "完全访问订单数据" as UC6
+USECASE "完全访问产品数据" as UC7
+USECASE "读取订单数据" as UC8
 
-:用户浏览商品;
+' 数据安全图例
+note "数据安全图例" as Legend
+note "完全访问: 读/写/删" as FA
+note "读/写: 受限于自己的数据" as RW
+note "读: 可查看数据" as R
 
-:用户加入购物车;
+' 关系
+Customer --> UC1 : 访问
+Customer --> UC2 : 访问
+Admin --> UC3 : 访问
+Admin --> UC6 : 访问
+Admin --> UC7 : 访问
+PaymentProcessor --> UC4 : 访问
+PaymentProcessor --> UC5 : 访问
+ShippingPartner --> UC8 : 访问
 
-:用户提交订单;
-
-:系统录入订单数据;
-
-:对订单数据进行校验;
-
-:将订单数据存入数据库;
-
-:对订单数据进行统计分析;
-
-:管理员访问和导出订单数据;
-
-:部分订单数据被存档;
-
-:部分无用订单数据被删除;
-
-stop
+' 图例关系
+Legend ..> FA 
+Legend ..> RW 
+Legend ..> R 
 
 @enduml
