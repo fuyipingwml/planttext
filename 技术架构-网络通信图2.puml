@@ -6,46 +6,46 @@ skinparam nodesep 20
 skinparam packageStyle rect
 
 package "Internet" {
-    [用户设备] --> [CDN分发节点] : HTTPS
+    [用户设备] --> [CDN分发节点] : HTTPS, 5000 QPS
 }
 
 package "DMZ" as aDMZ {
-    [API网关]
-    [SSL/TLS加密终结]
+    [API网关服务器]
+    [SSL/TLS加密服务器]
     [负载均衡器]
     [CDN分发节点]
     
-    [API网关] -left-> [SSL/TLS加密终结]: HTTPS
-    [SSL/TLS加密终结] -down-> [负载均衡器] : HTTP/2.0
+    [API网关服务器] -left-> [SSL/TLS加密服务器]: HTTPS, 4000 QPS
+    [SSL/TLS加密服务器] -down-> [负载均衡器] : HTTP/2.0, 3000 QPS
 }
 
-package "Intranet - 电商平台" {
+package "Intranet " {
     node "应用服务器集群" as appserver {
-        [商品管理服务]
-        [订单管理服务]
-        [客户关系管理服务]
+        [商品管理服务器]
+        [订单管理服务器]
+        [客户关系管理服务器]
     }
 
-    database "关系数据库" as DBserver {
-        [商品数据]
-        [订单数据]
-        [客户数据]
+    database "关系数据库集群" as DBserver {
+        [商品数据库服务器]
+        [订单数据库服务器]
+        [客户数据库服务器]
     }
 
     node "缓存服务器集群" as cacheserver {
-        [缓存服务]
+        [缓存服务器]
     }
 
-    node "文件存储服务" as fileserver {
-        [图片存储]
-        [文档存储]
+    node "文件存储服务器" as fileserver {
+        [图片存储服务器]
+        [文档存储服务器]
     }
 
-    [用户设备] -left->  [API网关] 
-    [负载均衡器] --> appserver : HTTP/1.1
-    appserver --> DBserver : JDBC
-    appserver --> cacheserver: Memcached Protocol
-    appserver --> fileserver : SFTP
+    [用户设备] -left->  [API网关服务器] : HTTPS, 5000 QPS
+    [负载均衡器] --> appserver : HTTP/1.1, 3000 QPS
+    appserver --> DBserver : JDBC, 1500 QPS
+    appserver --> cacheserver: Memcached Protocol, 2000 QPS
+    appserver --> fileserver : SFTP, 1000 QPS
 }
 
 @enduml

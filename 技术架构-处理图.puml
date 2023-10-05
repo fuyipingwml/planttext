@@ -1,36 +1,71 @@
 @startuml
 
-package "数据中心1" {
-    node "Web服务器" as WS {
-        [Web应用程序]
-    }
-    node "应用服务器" as AS {
-        [订单处理服务]
-        [库存管理服务]
-        [用户资料服务]
-    }
-    database "数据库服务器" as DB {
-        [商品数据库]
-        [用户数据库]
-        [订单数据库]
-    }
+skinparam defaultTextAlignment center
+skinparam fontsize 50
+skinparam nodesep 30
+
+package "Internet" {
+    [用户设备\n HTTPS, 3000 QPS] as usertb
 }
 
-package "数据中心2" {
-    [备份数据库]
+package "访问层" {
+    [API网关\n RESTful API] as apigate
+    [负载均衡器\n HTTP/1.1, 5000 QPS] as loadtb
+
+    usertb -->apigate: : OAuth2.0 Auth
+    apigate --> loadtb
 }
 
-'WS --> AS: REST/HTTP
-'AS --> DB: JDBC/SQL
+package "前端web层" {
 
-[Web应用程序] --> [订单处理服务]: API调用\n REST/HTTP \n 150QPS
-[Web应用程序] --> [库存管理服务]: API调用\n REST/HTTP\n 80QPS
-[Web应用程序] --> [用户资料服务]: API调用\n REST/HTTP\n 20QPS
+    node "主页面单元" {
+        [主页面组件]
+        [产品列表组件]
+    }
 
-[订单处理服务] --> [订单数据库]: CRUD操作\n JDBC/SQL
-[库存管理服务] --> [商品数据库]: CRUD操作\n JDBC/SQL
-[用户资料服务] --> [用户数据库]: CRUD操作\n JDBC/SQL
+    node "支付单元" {
+        [结账组件]
+        [支付组件]
+    }
 
-DB --> [备份数据库]: 数据复制
+    node "营销单元" {
+        [市场营销组件]
+        [活动组件]
+    }
+
+   loadtb --> [主页面组件] 
+   loadtb --> [结账组件] 
+    loadtb --> [市场营销组件]
+}
+
+package "后端服务层" {
+
+    [商品管理服务\n RESTful API, 2000 QPS] as productservice
+    [订单服务\n RESTful API, 1500 QPS] as dingdanfuwu
+    [支付服务\n RESTful API + 第三方支付API, 500 QPS] as zhifufuwu
+    [用户服务\n RESTful API, 1000 QPS] as yonghufuwu
+    [营销服务\n RESTful API, 700 QPS] as yingxiaofuwu
+
+    [主页面组件] --> productservice
+    [产品列表组件] --> productservice
+    [结账组件] -->dingdanfuwu
+    [支付组件] --> zhifufuwu
+    [市场营销组件] --> yingxiaofuwu
+    [活动组件] --> yonghufuwu
+}
+
+package "数据层" {
+    
+    [商品数据\n JDBC, PostgreSQL] as shangpinbshuju
+    [订单数据\n JDBC, MySQL] as dingdanshuju
+    [用户数据\n JDBC, Oracle] as yonghushuju
+    [营销数据\n NoSQL, MongoDB] as yingxioaoshuju
+
+    productservice --> shangpinbshuju
+   dingdanfuwu--> dingdanshuju
+   zhifufuwu --> dingdanshuju 
+   yonghufuwu -->  yonghushuju
+   yingxiaofuwu--> yingxioaoshuju
+}
 
 @enduml
