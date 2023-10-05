@@ -1,33 +1,68 @@
 @startuml
-'left to right direction
-skinparam packageStyle rect
 
-actor 第三方支付网关
-actor 财务团队
-actor 销售团队
-actor 客户 
-actor IT团队
+skinparam defaultTextAlignment center
+skinparam fontsize 20
+skinparam nodesep 30
 
-package "数据中心" {
-  usecase "订单" as o1
-  usecase "付款" as o2
-  usecase "客户资料" as o3
-  usecase "商品" as o4
-  usecase "反馈" as o5
-  o1 -[hidden]-> o2
-  o2 -[hidden]-> o3
-  o3 -[hidden]-> o4
-  o4 -[hidden]-> o5
+package "Internet" {
+   ' cloud "用户" as users {
+    '}
+
+    'cloud "第三方支付服务" as payment {
+    '    [支付网关]
+     '   [资金清算]
+    '}
+
+    '[用户设备] -down-> aDMZ : HTTPS
+    [用户设备] --> [CDN分发节点] : HTTPS
 }
 
-第三方支付网关 -right-> o1 : R
-第三方支付网关 --> o3 : R/U
-财务团队 -right-> o1 : R
-财务团队 --> o3 : R/U
+package "DMZ" as aDMZ{
+    [API网关]
+    [SSL/TLS加密终结]
+    [负载均衡器]
+    [CDN分发节点]
+    [API网关] -right-> [SSL/TLS加密终结]: HTTPS
+    [SSL/TLS加密终结] -right-> [负载均衡器] : HTTP/2.0
+    
+}
 
-销售团队 -left-> o1 : R/U
-第三方支付网关 -[hidden]-> 销售团队
-销售团队 -left-> o2 : R
-销售团队 -l-> o3 : R
+package "Intranet - 电商平台" {
+    
+    node "应用服务器集群" as appserver {
+        [商品管理服务]
+        [订单管理服务]
+        [客户关系管理服务]
+    }
+
+    database "关系数据库" as DBserver {
+        [商品数据]
+        [订单数据]
+        [客户数据]
+    }
+
+    node "缓存服务器集群" as cacheserver {
+        [缓存服务]
+    }
+
+    node "文件存储服务" as fileserver {
+        [图片存储]
+        [文档存储]
+    }
+
+   ' node "分销合作伙伴" as salepartner {
+    '    [分销API服务]
+   ' }
+
+     [用户设备] -down->  aDMZ 
+    [负载均衡器] --> appserver : HTTP/1.1
+    appserver --> DBserver : JDBC
+    appserver --> cacheserver: Memcached Protocol
+   ' [分销API服务] --> [API网关] : HTTPS
+    appserver --> fileserver : SFTP
+     [订单管理服务]
+    'aDMZ--> payment
+    'appserver --> payment
+}
 
 @enduml

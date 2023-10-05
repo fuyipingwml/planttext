@@ -1,0 +1,44 @@
+@startuml
+
+skinparam state {
+  BackgroundColor LightYellow
+  BorderColor Gray
+  'FontName Arial
+}
+
+'title 电商业务 - 订单的数据生命周期
+
+state "新建订单" as Initial {
+  [*] --> 待付款
+}
+
+state "待付款" as Pending
+state "处理中" as Processing
+state "已发货" as Shipped
+state "已交付" as Delivered
+state "退款/退货中" as Refunding
+state "已完成" as Completed
+state "已取消" as Cancelled
+
+Pending --> Processing : 支付成功
+Pending --> Cancelled : 取消订单/支付失败
+Processing --> Shipped : 订单打包并发货
+Shipped --> Delivered : 客户收到商品
+Delivered --> Refunding : 客户请求退货/退款
+Refunding --> Completed : 退款/退货完成
+Refunding --> Delivered : 退货/退款拒绝
+Delivered --> Completed : 客户满意
+
+note right of Pending : 订单已创建，等待支付
+note right of Processing : 订单支付完成，等待发货
+note right of Shipped : 商品已发货
+note right of Delivered : 商品已交付给客户
+note right of Refunding : 处理客户退款/退货
+note right of Completed : 订单完成
+note right of Cancelled : 订单因某种原因被取消
+
+
+
+'note right of SharedData : 这些数据可以被多个流程共享，从而实现资源共享和效率提升。
+
+@enduml

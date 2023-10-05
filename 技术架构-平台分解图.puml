@@ -1,38 +1,32 @@
-'技术架构-平台分解图12
 @startuml
-!define RECTANGLE package
-RECTANGLE "用户" {
-[客户端]
-}
-RECTANGLE "前端层" {
-[前端服务]
-}
-RECTANGLE "应用层" {
-[订单服务]
-[商品服务]
-[用户服务]
-[库存服务]
-}
-RECTANGLE "中间件层" {
-[消息队列]
-}
-RECTANGLE "存储层" {
-[订单数据库]
-[商品数据库]
-[用户数据库]
-[库存数据库]
-}
-'连接12
-[客户端] --> [前端服务]
-[前端服务] --> [订单服务]
-[前端服务] --> [商品服务]
-[前端服务] --> [用户服务]
-[订单服务] --> [商品服务]
-[订单服务] --> [用户服务]
-[订单服务] --> [库存服务]
-[订单服务] --> [消息队列]
-[商品服务] --> [商品数据库]
-[用户服务] --> [用户数据库]
-[库存服务] --> [库存数据库]
-[消息队列] --> [订单数据库]
+skinparam packageStyle rectangle
+
+package "技术平台" {
+    frame "逻辑技术组件" {
+        rectangle "Web前端服务层" as LWebUI
+        rectangle "Web后端及应用业务逻辑层" as LWebAPI_Business
+        rectangle "数据访问层" as LDataAccess
+        rectangle "数据存储层" as LDataStorage
+    }
+    
+    frame "物理技术组件" {
+        rectangle "负载均衡器\n- Nginx" as LoadBalancer
+        rectangle "Web前端服务器\n- Node.js" as PWebUIServer
+        rectangle "Web后端服务器\n- Spring Boot" as PWebAPI_BusinessProcessor
+  
+        database "数据库\n- MySQL + MongoDB" as PDatabase
+        rectangle "缓存服务器\n- Redis" as PCacheServer
+        rectangle "消息队列服务器\n- RabbitMQ" as PQueueServer
+        rectangle "文件存储\n- S3" as PFileStorage
+    }
+
+    LWebUI --> LoadBalancer : 对应
+    LWebUI --> PWebUIServer : 对应
+    LWebAPI_Business --> PWebAPI_BusinessProcessor : 对应
+    
+    LDataAccess --> PDatabase : 对应
+    LDataAccess --> PCacheServer : 对应
+    LDataAccess --> PQueueServer : 对应
+    LDataStorage --> PFileStorage : 对应
+
 @enduml

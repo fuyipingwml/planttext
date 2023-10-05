@@ -1,0 +1,61 @@
+@startuml
+
+skinparam defaultTextAlignment center
+skinparam fontsize 14
+skinparam nodesep 30
+
+package "电商平台" {
+    
+    cloud "云服务" {
+        [API网关]
+        [SSL/TLS加密终结]
+        [负载均衡器]
+        [CDN分发节点]
+        
+        node "应用服务器集群" as appserver {
+            [商品管理服务]
+            [订单管理服务]
+            [客户关系管理服务]
+        }
+
+        database "关系数据库" as DBserver {
+            [商品数据]
+            [订单数据]
+            [客户数据]
+        }
+
+        node "缓存服务器集群" as cacheserver{
+            [缓存服务]
+        }
+         node "文件存储服务" as fileserver {
+            [图片存储]
+            [文档存储]
+        }
+    }
+
+    node "分销合作伙伴" as salepartner {
+        [分销API服务]
+    }
+
+cloud "第三方支付服务" as payment {
+        [支付网关]
+        [资金清算]
+    }
+
+
+    [用户设备] -down-> [API网关] : HTTPS
+    [用户设备] -down-> [CDN分发节点] : HTTPS
+    [API网关] -right-> [SSL/TLS加密终结]: HTTPS
+    ' [API网关] -[hidden]-> [SSL/TLS加密终结]
+    [SSL/TLS加密终结] -right-> [负载均衡器] : HTTP/2.0
+    [负载均衡器] -down->appserver : HTTP/1.1
+
+    appserver --> DBserver : JDBC
+    appserver --> cacheserver: Memcached Protocol
+    [分销API服务] --> [API网关] : HTTPS
+    'cacheserver -left-> DBserver
+     appserver --> fileserver : SFTP
+
+DBserver -[hidden]-> fileserver
+appserver --> payment
+@enduml

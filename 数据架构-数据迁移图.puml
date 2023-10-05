@@ -1,0 +1,69 @@
+@startuml
+
+package "现有数据源A (2010)" {
+  class "商品A 2010" {
+    + 商品名: String
+    + 价格: Decimal
+    + 描述: String
+    + 商品ID_A: String
+  }
+  class "客户A 2010" {
+    + 姓名: String
+    + 客户ID_A: String
+  }
+  class "订单A 2010" {
+    + 订单号_A: String
+    + 商品ID_A: String
+    + 客户ID_A: String
+  }
+}
+
+package "现有数据源B (2010)" {
+  class "客户B 2010" {
+    + 姓名: String
+    + 客户ID_B: String
+  }
+}
+
+package "迁移的数据" {
+  class "商品 " {
+    + 商品名: String
+    + 价格: Decimal
+    + 描述: String
+    + 商品ID_A: String
+  }
+  class "客户 (整合后)" {
+    + 姓名: String
+    + 新客户ID: String
+  }
+  class "订单 " {
+    + 订单号_A: String
+    + 商品ID_A: String
+    + 客户ID_A: String
+  }
+  class "供应商" {
+    + 名称: String
+    + 供应商ID: String
+  }
+  class "库存" {
+    + 商品ID_A: String
+    + 数量: Int
+  }
+  class "评论" {
+    + 新客户ID: String
+    + 商品ID_A: String
+    + 内容: String
+  }
+}
+
+note "标准化\n规范化\n整合" as N1
+"商品A 2010" --> "商品 " : <<migration>>
+"客户A 2010" --> "客户 (整合后)" : <<migration>>
+"客户B 2010" --> "客户 (整合后)" : <<migration>>
+
+"订单A 2010" --> "订单 " : <<migration>>
+
+"客户A 2010" .. N1
+"客户B 2010" .. N1
+
+@enduml

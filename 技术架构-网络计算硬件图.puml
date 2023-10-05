@@ -1,0 +1,57 @@
+@startuml
+
+package "数据中心" {
+
+    cloud "互联网" as Internet {
+    }
+
+    node "Web前端服务器" as Frontend {
+        [Web应用]
+    }
+
+    node "应用服务器" as AppServer {
+        [订单处理]
+        [库存检查]
+        [用户管理]
+    }
+
+    database "数据库服务器" as DBServer {
+        [商品数据]
+        [订单数据]
+        [用户数据]
+    }
+
+    node "外部API网关服务器" as APIGateway {
+        [支付处理]
+        [物流跟踪]
+    }
+
+    node "缓存服务器" as Cache {
+       
+        [数据缓存1]
+        [数据缓存2]
+        ' [数据缓存3]
+    }
+
+    node "备份服务器" as Backup {
+        [数据库备份]
+    }
+
+    Internet --> [Web应用]
+    [Web应用] --> [订单处理]
+    [Web应用] -->  [库存检查]
+     [Web应用] -->  [用户管理]
+    'Frontend --> AppServer
+     [用户管理] --> Cache
+     [库存检查] -->  Cache
+      [订单处理] -->  Cache
+       Cache --> DBServer
+
+    'AppServer --> DBServer
+    AppServer --> APIGateway
+  
+    DBServer --> Backup
+
+}
+
+@enduml
