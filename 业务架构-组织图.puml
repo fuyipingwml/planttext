@@ -1,0 +1,70 @@
+@startuml
+
+skinparam package {
+  FontSize 16
+  'backgroundColor Wheat
+  'borderColor DarkGoldenRod
+}
+skinparam DefaultFontSize 55
+
+package "电商公司" {
+
+  package "高层管理" {
+    [首席执行官] as CEO
+    [首席财务官] as CFO
+    [首席技术官] as CTO
+    [首席营销官] as CMO
+  }
+
+  package "销售与市场营销部门" {
+    [销售团队] as Sales
+    [市场营销团队] as Marketing
+    [客户关系管理团队] as CRM
+
+    package "广告" {
+      [线上广告]
+      [线下广告]
+    }
+  }
+
+  package "产品与供应链部门" {
+    [产品管理团队] as Product
+    [采购团队] as Procurement
+    package "仓储与物流" {
+      [仓库管理]
+      [运输与配送]
+    }
+  }
+
+  package "技术与IT部门" {
+    [网站开发团队] as WebDev
+    [移动应用团队] as MobileApp
+    [IT支持团队] as ITSupport
+
+    package "数据与分析" {
+      [数据工程团队]
+      [数据分析团队]
+    }
+  }
+
+  package "客户服务部门" {
+    [客户支持团队] as Support
+    package "退货与退款" {
+      [退货处理]
+      [退款处理]
+    }
+  }
+
+  package "财务与行政部门" {
+    [会计团队] as Accounting
+    [人力资源团队] as HR
+    [行政团队] as Admin
+
+    package "法务与合规部门" {
+      [法务团队]
+      [合规团队]
+    }
+  }
+}
+
+@enduml

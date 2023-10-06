@@ -1,0 +1,34 @@
+@startuml
+skinparam rectangle {
+  roundCorner<<Capability>> 25
+  backgroundColor<<Capability>> Lavender
+  borderColor<<Capability>> Black
+  borderThickness<<Capability>> 2
+}
+skinparam DefaultFontSize 40
+
+package "电商业务" {
+  rectangle "电商核心能力" as Core <<Capability>> {
+    rectangle "产品管理" as Product <<Capability>> {
+      rectangle "商品上架" <<Capability>>
+      rectangle "库存管理" <<Capability>>
+    }
+    rectangle "客户管理" as Customer <<Capability>> {
+      rectangle "用户注册" <<Capability>>
+      rectangle "用户反馈" <<Capability>>
+    }
+    rectangle "销售与营销" as Sales <<Capability>> {
+      rectangle "推广活动" <<Capability>>
+      rectangle "定价策略" <<Capability>>
+    }
+    rectangle "订单与物流" as Logistics <<Capability>> {
+      rectangle "订单处理" <<Capability>>
+      rectangle "物流追踪" <<Capability>>
+    }
+    rectangle "支付处理" as Payment <<Capability>> {
+      rectangle "在线支付" <<Capability>>
+      rectangle "退款管理" <<Capability>>
+    }
+  }
+}
+@enduml
