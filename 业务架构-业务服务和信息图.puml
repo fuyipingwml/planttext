@@ -1,0 +1,26 @@
+@startuml
+'title 电商业务服务/信息图
+
+package "业务服务" {
+  class "商品搜索" as ProductService <<BusinessService>>
+  class "订单创建" as CreateOrderService <<BusinessService>>
+  class "支付处理" as PaymentService <<BusinessService>>
+  class "客户反馈" as FeedbackService <<BusinessService>>
+}
+
+package "数据实体" {
+  class "商品目录" as ProductCatalog <<DataEntity>>
+  class "用户账户" as UserAccount <<DataEntity>>
+  class "订单" as Order <<DataEntity>>
+  class "支付确认" as PaymentConfirmation <<DataEntity>>
+  class "反馈记录" as FeedbackRecord <<DataEntity>>
+}
+
+ProductService --> ProductCatalog : <<Access>>
+CreateOrderService --> UserAccount : <<Access>>
+CreateOrderService --> Order : <<Provide>>
+PaymentService --> Order : <<Access>>
+PaymentService --> PaymentConfirmation : <<Provide>>
+FeedbackService --> FeedbackRecord : <<Provide>>
+
+@enduml

@@ -8,8 +8,8 @@ skinparam rectangle {
 }
 
 ' 组件定义
-package "组织单位" {
-  rectangle "销售部门" as SalesDept
+package "组织单位层" {
+  'rectangle "销售部门" as SalesDept
   rectangle "客户服务部门" as CustomerServiceDept
 }
 
@@ -17,20 +17,26 @@ package "组织单位" {
  ' rectangle "进入市场" as GoToMarket
 '}
 
-package "业务目标" {
+package "业务目标层" as BUSIGOAL {
   rectangle "提高客户满意度" as ImproveCustomerSatisfaction
 }
 
-package "业务流程" {
+package "业务流程层" as BUSIPROCESS {
   rectangle "客户投诉处理" as CustomerRelationshipManagement
   rectangle "客户身份验证" as CustomerIDChK
 }
 
-package "业务服务" {
+package "技术组件层" {
+  rectangle "CRM" as CRMSYS
+  'rectangle "ERP" as ERPSYS
+
+}
+
+package "业务服务层" as BUSISERV {
   rectangle "在线客户支持聊天" as CustomerSupport
 }
 
-package "业务能力" as Busiability {
+package "业务能力层" as Busiability {
   rectangle "客户支持管理" as CustomerSupportmg
   rectangle "客户关系管理" as Customerrelmg
 }
@@ -38,17 +44,21 @@ package "业务能力" as Busiability {
 ' 组件关系
 'GoToMarket --> SalesDept : "参与"
 'SalesDept --> CustomerRelationshipManagement : "指挥"
-CustomerServiceDept--> Busiability  : "使用"
-ImproveCustomerSatisfaction <-- CustomerSupport : "支持"
+'CustomerServiceDept--> Busiability  : "使用"
+CustomerServiceDept .right.> BUSIGOAL
+CustomerServiceDept .right.> BUSIPROCESS
+CustomerServiceDept .right.> BUSISERV
+CustomerSupport -down->ImproveCustomerSatisfaction   : "支持"
 'SalesManagement --> SalesDept : "使能"
 
 ' 其他相关组件
-rectangle "传统 CRM" as LegacyCRM
-CustomerRelationshipManagement <-- LegacyCRM : "自动化"
-CustomerIDChK <-- LegacyCRM : "自动化"
+'rectangle "传统 CRM" as LegacyCRM
+CRMSYS-down->CustomerRelationshipManagement : "自动化"
+
+CRMSYS-down->CustomerIDChK  : "自动化"
 CustomerRelationshipManagement -right-> CustomerSupport: "支持"
-CustomerSupportmg -left-> CustomerRelationshipManagement: "被实现"
-Customerrelmg --> CustomerIDChK: "被实现"
+CustomerSupportmg .up..> CustomerRelationshipManagement: "被实现"
+Customerrelmg .up.> CustomerIDChK: "被实现"
 CustomerIDChK --> CustomerSupport: "支持"
 
 @enduml

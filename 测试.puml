@@ -1,54 +1,56 @@
 @startuml
-'title 电商公司 业务足迹图
+left to right direction
+skinparam packageStyle rect
 
-skinparam rectangle {
-  BackgroundColor transparent
-  BorderColor black
-  roundcorner 25
+package "电商平台" {
+
+    usecase "浏览商品" as UC1
+    usecase "搜索商品" as UC2
+    usecase "查看商品详情" as UC3
+    usecase "添加到购物车" as UC5
+    usecase "查看购物车" as UC6
+    usecase "结账购买" as UC7
+    usecase "选择支付方式" as UC8
+    usecase "确认收货" as UC9
+    usecase "查看/管理个人账户" as UC11
+    usecase "参与秒杀/团购活动" as UC13
+    usecase "浏览/使用优惠券" as UC14
+    usecase "申请退款/退货" as UC15
+    usecase "在线客服咨询" as UC16
+    usecase "查看/修改收货地址" as UC17
+    
+    usecase "创建/管理优惠券" as UC18
+    usecase "处理退货/退款" as UC19
+    usecase "回答顾客咨询" as UC20
+    usecase "上传/管理商品信息" as UC21
+
 }
 
-' 组件定义
-package "组织单位" {
-  rectangle "销售部门" as SalesDept
-  rectangle "客户服务部门" as CustomerServiceDept
-}
+actor "顾客" as Customer
+actor "客服" as Support
+actor "卖家" as Seller
 
-'package "业务领域" {
- ' rectangle "进入市场" as GoToMarket
-'}
+Customer --> UC1
+Customer --> UC2
+Customer --> UC3
+Customer --> UC5
+Customer --> UC6
+Customer --> UC7
+Customer --> UC9
+Customer --> UC11
+Customer --> UC13
+Customer --> UC14
+Customer --> UC15
+Customer --> UC16
+Customer --> UC17
 
-package "业务目标" {
-  rectangle "提高客户满意度" as ImproveCustomerSatisfaction
-}
+UC7 --> UC8 : <<extend>>
 
-package "业务流程" {
-  rectangle "客户投诉处理" as CustomerRelationshipManagement
-  rectangle "客户身份验证" as CustomerIDChK
-}
+UC18 <-- Seller  
+UC21 <-- Seller  
+UC19 <-- Seller 
 
-package "业务服务" {
-  rectangle "在线客户支持聊天" as CustomerSupport
-}
-
-package "业务能力" as Busiability {
-  rectangle "客户支持管理" as CustomerSupportmg
-  rectangle "客户关系管理" as Customerrelmg
-}
-
-' 组件关系
-'GoToMarket --> SalesDept : "参与"
-'SalesDept --> CustomerRelationshipManagement : "指挥"
-CustomerServiceDept--> Busiability  : "使用"
-ImproveCustomerSatisfaction <-- CustomerSupport : "支持"
-'SalesManagement --> SalesDept : "使能"
-
-' 其他相关组件
-rectangle "传统 CRM" as LegacyCRM
-CustomerRelationshipManagement <-- LegacyCRM : "自动化"
-CustomerIDChK <-- LegacyCRM : "自动化"
-CustomerRelationshipManagement -right-> CustomerSupport: "支持"
-CustomerSupportmg -left-> CustomerRelationshipManagement: "被实现"
-Customerrelmg --> CustomerIDChK: "被实现"
-CustomerIDChK --> CustomerSupport: "支持"
+UC19 <--Support 
+UC20 <==Support 
 
 @enduml

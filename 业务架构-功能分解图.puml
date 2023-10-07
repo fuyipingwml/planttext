@@ -1,0 +1,47 @@
+@startuml
+
+skinparam DefaultFontSize 25
+
+package "电商平台" {
+
+  rectangle "购物体验" {
+    
+    rectangle "商品浏览" as a1 #LightGreen
+    rectangle "商品搜索" as a2 #LightGreen
+    rectangle "用户推荐" 
+  }
+
+  rectangle "订单管理" {
+    rectangle "购物车管理" as b1 #LightGreen
+    rectangle "订单创建" as b2 #LightGreen
+    rectangle "订单支付" as b3 #LightGreen
+    rectangle "订单追踪" 
+  }
+
+  rectangle "客户支持" {
+    rectangle "在线客服" 
+    rectangle "退货与退款" as c1 #LightGreen
+    rectangle "用户反馈" as c2  #LightGreen
+  }
+
+  rectangle "市场与推广" {
+    rectangle "广告发布"  as d1 #LightGreen
+    rectangle "促销活动管理" as d2 #LightGreen
+    rectangle "用户数据分析" 
+  }
+
+  rectangle "后端管理" {
+    rectangle "库存管理" 
+    rectangle "供应链管理"  as e1 #LightGreen
+    rectangle "财务管理"  as e2 #LightGreen
+  }
+
+  rectangle "用户管理" {
+    rectangle "用户注册与登录"  as f1 #LightGreen
+    rectangle "用户信息管理" 
+    rectangle "用户权限管理" as f2 #LightGreen
+  }
+
+}
+
+@enduml

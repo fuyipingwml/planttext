@@ -1,0 +1,36 @@
+@startuml
+
+skinparam DefaultFontSize 25
+
+package "电商公司" {
+  package "目标" {
+    rectangle 提升客户满意度 as Goal1
+  }
+  package "目的" {
+    rectangle "下季度交货时间缩减10%" as Obj1
+    rectangle "减少退货15%" as Obj2
+    rectangle "客户满意度提升5%" as Obj3
+  }  
+
+    rectangle "业务服务" {
+      
+       rectangle 优化物流流程 as Service1
+        rectangle 与顶级快递公司合作 as Service2
+       rectangle 严格的质量检查流程 as Service3
+        rectangle 供应商质量培训 as Service4
+        rectangle "24/7客户支持热线" as Service5
+        rectangle 在线客户反馈平台 as Service6
+    }
+
+    Goal1 --> Obj1
+    Goal1 --> Obj2
+    Goal1 --> Obj3
+
+    Obj1 ---> Service1
+    Obj1 --> Service2
+    Obj2 --> Service3
+    Obj2 --> Service4
+    Obj3 --> Service5
+    Obj3 --> Service6
+
+@enduml
