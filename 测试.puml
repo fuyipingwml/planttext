@@ -1,56 +1,88 @@
 @startuml
-left to right direction
-skinparam packageStyle rect
 
-package "电商平台" {
-
-    usecase "浏览商品" as UC1
-    usecase "搜索商品" as UC2
-    usecase "查看商品详情" as UC3
-    usecase "添加到购物车" as UC5
-    usecase "查看购物车" as UC6
-    usecase "结账购买" as UC7
-    usecase "选择支付方式" as UC8
-    usecase "确认收货" as UC9
-    usecase "查看/管理个人账户" as UC11
-    usecase "参与秒杀/团购活动" as UC13
-    usecase "浏览/使用优惠券" as UC14
-    usecase "申请退款/退货" as UC15
-    usecase "在线客服咨询" as UC16
-    usecase "查看/修改收货地址" as UC17
-    
-    usecase "创建/管理优惠券" as UC18
-    usecase "处理退货/退款" as UC19
-    usecase "回答顾客咨询" as UC20
-    usecase "上传/管理商品信息" as UC21
-
+skinparam rectangle {
+    borderColor Black
+    backgroundColor Wheat
 }
 
-actor "顾客" as Customer
-actor "客服" as Support
-actor "卖家" as Seller
+package "电商公司组织地图" {
 
-Customer --> UC1
-Customer --> UC2
-Customer --> UC3
-Customer --> UC5
-Customer --> UC6
-Customer --> UC7
-Customer --> UC9
-Customer --> UC11
-Customer --> UC13
-Customer --> UC14
-Customer --> UC15
-Customer --> UC16
-Customer --> UC17
+    class "CEO" as CEO {
+    }
 
-UC7 --> UC8 : <<extend>>
+    package "高级管理层" {
+        class "首席财务官\n(财务策略、预算管理)" as CFO
+        class "首席技术官\n(技术战略、IT管理)" as CTO
+        class "首席营销官\n(市场战略、品牌建设)" as CMO
+    }
 
-UC18 <-- Seller  
-UC21 <-- Seller  
-UC19 <-- Seller 
+    package "业务部门" {
 
-UC19 <--Support 
-UC20 <==Support 
+        package "财务部" {
+            class "会计\n(日常财务记录)" as Accounting
+            class "审计\n(内部财务审计)" as Auditing
+            class "预算与计划\n(财务预测)" as Budgeting
+        }
+
+        package "技术部" {
+            class "前端开发" as Frontend
+            class "后端开发" as Backend
+            class "云服务管理" as CloudServices
+            class "IT支持" as ITSupport
+        }
+
+        package "营销部" {
+            class "市场推广" as Marketing
+            class "公关" as PR
+            class "社交媒体管理" as SocialMedia
+            class "广告" as Advertising
+        }
+
+        package "销售部" {
+            class "线上销售" as OnlineSales
+            class "线下销售" as OfflineSales
+            class "客户关系管理" as CRM
+        }
+
+        package "运营部" {
+            class "物流管理" as Logistics
+            class "库存管理" as Inventory
+            class "客服支持" as CustomerService
+        }
+
+        package "人事部" {
+            class "招聘" as Recruitment
+            class "员工培训" as Training
+            class "员工关系" as Relations
+        }
+
+        package "产品部" {
+            class "产品开发" as ProductDev
+            class "产品管理" as ProductMgmt
+            class "用户体验设计" as UX
+        }
+    }
+
+    class "供应商" as Supplier {
+    }
+
+    class "合作伙伴" as Partner {
+    }
+
+    class "客户" as Customer {
+    }
+
+    CEO -down-> "高级管理层"
+    CEO --> Supplier : 合同谈判
+    CEO --> Partner : 商务合作
+
+    CFO --> "财务部"
+    CTO --> "技术部"
+    CMO --> "营销部"
+    CMO --> Customer : 直接反馈
+
+    "销售部" --> Customer : 销售服务
+    "运营部" --> Supplier : 物流协调
+    "运营部" --> Customer : 售后服务
 
 @enduml
