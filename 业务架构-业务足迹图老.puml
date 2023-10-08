@@ -1,24 +1,7 @@
 @startuml
-title 电商公司 业务足迹图
+'title 电商公司 业务足迹图
 
-package "业务目标层" as BusiGoal {
-  rectangle "..." as OthersGoal
-  rectangle "提高客户满意度" as ImproveCustomerSatisfaction
-}
-
-package "组织单位层" {
-  rectangle "..." as OtherDept
-  rectangle "客户服务部门" as CustomerServiceDept
-
-}
-
-package "业务功能层" {
-
-  rectangle "客户服务" as CustomerFunc
-
-}
-
-/'skinparam rectangle {
+skinparam rectangle {
   BackgroundColor transparent
   BorderColor black
   roundcorner 25
@@ -77,5 +60,5 @@ CustomerRelationshipManagement -right-> CustomerSupport: "支持"
 CustomerSupportmg .up..> CustomerRelationshipManagement: "被实现"
 Customerrelmg .up.> CustomerIDChK: "被实现"
 CustomerIDChK --> CustomerSupport: "支持"
-'/
+
 @enduml

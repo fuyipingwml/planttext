@@ -1,64 +1,106 @@
 @startuml
-'title 电商公司 业务足迹图
 
-skinparam rectangle {
-  BackgroundColor transparent
-  BorderColor black
-  roundcorner 25
+'title 电商公司业务足迹图
+'参考材料 https://support.unicomsi.com/manuals/systemarchitect/114100/starthelp.html#page/Architecting_and_designing/TOGAF1547834.html
+
+package "目标" {
+  [拓展市场份额]
 }
 
-' 组件定义
-package "组织单位层" {
-  'rectangle "销售部门" as SalesDept
-  rectangle "客户服务部门" as CustomerServiceDept
+package "组织单元" {
+  [...]
+  [供应链部]
+  [市场部]
+  [客服部]
 }
 
-'package "业务领域" {
- ' rectangle "进入市场" as GoToMarket
-'}
-
-package "业务目标层" as BUSIGOAL {
-  rectangle "提高客户满意度" as ImproveCustomerSatisfaction
+package "业务功能" {
+   [.....]
+  [营销管理]
+  [销售管理]
+  [客户管理]
+  [物流管理]
+  
+ 
 }
 
-package "业务流程层" as BUSIPROCESS {
-  rectangle "客户投诉处理" as CustomerRelationshipManagement
-  rectangle "客户身份验证" as CustomerIDChK
+package "业务服务" {
+  [..........]
+  [广告投放]
+  [推荐服务]
+  [订购服务]
+  [商品配送]
+  [售后服务]
+  [投诉咨询]
+  
 }
 
-package "技术组件层" {
-  rectangle "CRM" as CRMSYS
-  'rectangle "ERP" as ERPSYS
-
+package "逻辑技术组件" {
+  [.........]
+  [营销平台]
+  [CRM系统]
+  [客服系统]
+  [ERP系统]
 }
 
-package "业务服务层" as BUSISERV {
-  rectangle "在线客户支持聊天" as CustomerSupport
-}
+[拓展市场份额] --> [供应链部]
+[拓展市场份额] --> [市场部]
+[拓展市场份额] --> [客服部]
 
-package "业务能力层" as Busiability {
-  rectangle "客户支持管理" as CustomerSupportmg
-  rectangle "客户关系管理" as Customerrelmg
-}
+[市场部]--> [营销管理]
+[市场部]--> [销售管理]
 
-' 组件关系
-'GoToMarket --> SalesDept : "参与"
-'SalesDept --> CustomerRelationshipManagement : "指挥"
-'CustomerServiceDept--> Busiability  : "使用"
-CustomerServiceDept .right.> BUSIGOAL
-CustomerServiceDept .right.> BUSIPROCESS
-CustomerServiceDept .right.> BUSISERV
-CustomerSupport -down->ImproveCustomerSatisfaction   : "支持"
-'SalesManagement --> SalesDept : "使能"
+ [客服部]-->[客户管理]
+ [供应链部]-->[物流管理]
 
-' 其他相关组件
-'rectangle "传统 CRM" as LegacyCRM
-CRMSYS-down->CustomerRelationshipManagement : "自动化"
+[营销管理]-->[广告投放]
+[销售管理]-->[推荐服务]
+[销售管理]-->[订购服务]
 
-CRMSYS-down->CustomerIDChK  : "自动化"
-CustomerRelationshipManagement -right-> CustomerSupport: "支持"
-CustomerSupportmg .up..> CustomerRelationshipManagement: "被实现"
-Customerrelmg .up.> CustomerIDChK: "被实现"
-CustomerIDChK --> CustomerSupport: "支持"
+[客户管理]-->[售后服务]
+[客户管理]--> [投诉咨询]
+
+[物流管理]-->[商品配送]
+
+
+/'[市场部] --> [广告投放]
+[市场部] --> [经营分析]
+[市场部] --> [推荐服务]
+[市场部] --> [订购服务]
+
+[客服部]--> [售后服务]
+[客服部]--> [投诉咨询]
+
+[供应链部]-->[ERP服务]'/
+
+[广告投放]-->[营销平台]
+[推荐服务]-->[营销平台]
+[推荐服务]-->[CRM系统]
+[订购服务]-->[CRM系统]
+[售后服务]-->[客服系统]
+[投诉咨询]-->[客服系统]
+[商品配送]-->[ERP系统]
+
+
+/'
+[增加销售额] --> [市场营销部]
+[提高客户满意度] --> [客服部]
+[拓展市场份额] --> [销售部]
+[优化运营效率] --> [技术部]
+
+[市场营销部] --> [产品展示]
+[销售部] --> [订单管理]
+[客服部] --> [客户咨询与支持]
+[技术部] --> [技术支持与维护]
+
+[产品展示] --> [商品搜索与推荐]
+[订单管理] --> [购物车管理]
+[客户咨询与支持] --> [在线客服答疑]
+[技术支持与维护] --> [网站性能优化]
+
+[商品搜索与推荐] --> [人工智能搜索引擎]
+[购物车管理] --> [数据库管理系统]
+[在线客服答疑] --> [客服聊天机器人]
+[网站性能优化] --> [云计算平台]'/
 
 @enduml
