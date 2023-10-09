@@ -1,68 +1,86 @@
 @startuml
-'title 电商公司 价值流图
 
-skinparam rectangle {
-  BackgroundColor transparent
-  BorderColor black
-  roundcorner 25
+'title 电商公司业务足迹图
+'参考材料 https://support.unicomsi.com/manuals/systemarchitect/114100/starthelp.html#page/Architecting_and_designing/TOGAF1547834.html
+
+'left to right direction
+package "战略能力" as zhanluenengli{
+  [业务规划]
+[市场规划]
+[伙伴管理]
+[资本管理]
+[政策管理]
+[合规管理]
+[业务规划] -[hidden]-> [市场规划]
+[市场规划]-[hidden]->[伙伴管理]
+[伙伴管理]-[hidden]-> [资本管理]
+ [资本管理]-[hidden]->[政策管理]
+ [政策管理]-[hidden]->[合规管理]
+
+ /'[业务规划] .right.[市场规划]
+ [市场规划] .right. [伙伴管理]
+[伙伴管理] .right. [资本管理]
+[资本管理].right.[政策管理]
+[政策管理].right.[合规管理]'/
+
 }
 
-skinparam DefaultFontSize 30
 
-' 主要的价值流
-rectangle "客户发现与吸引" as a1 {
-  [市场分析与推广]
+package "核心能力" as hexinnengli {
+  [账户管理]
+[产品管理]
+[分销管理]
+[客户管理]
+[渠道管理]
+[代理管理]
+ [账户管理]-[hidden]-> [产品管理]
+ [产品管理]-[hidden]->[分销管理]
+ [分销管理]-[hidden]->[客户管理]
+ [客户管理]-[hidden]->[渠道管理]
+ [渠道管理]-[hidden]->[代理管理]
+
+
+/'[账户管理].right.[产品管理]
+[产品管理].right.[分销管理]
+
+[分销管理].right. [客户管理]
+[客户管理].right. [渠道管理]
+[渠道管理].right.[代理管理]'/
+
 }
 
-rectangle "产品展示与详情" as a2 {
-  [产品管理与目录维护]
+ '[业务规划]-[hidden]->[账户管理]
+package "支持能力" as zhichinengli {
+  [财务管理]
+[人力管理]
+[资产管理]
+[信息管理]
+[培训管理]
+[运营管理]
+[财务管理]-[hidden]-> [人力管理]
+[人力管理]-[hidden]->[资产管理]
+[资产管理]-[hidden]->[信息管理]
+[信息管理]-[hidden]->[培训管理]
+[培训管理]-[hidden]->[运营管理]
+
+/'[人力管理].right.[财务管理]
+[财务管理].right.[资产管理]
+[资产管理].right. [信息管理]
+[信息管理].right.[培训管理]
+[培训管理].right.[运营管理]'/
 
 }
 
-rectangle "购物车管理与结账" as a3 {
-  [购物车技术支持]
-}
+'[账户管理]-[hidden]->[人力管理]
 
-rectangle "客户服务 & 反馈" as Feedback {
-  [售后服务]
-  [客户反馈 & 评价]
-}
+'[财务管理]-[hidden]->[人力资源管理]
 
-Browsing --> Cart
-Cart --> Processing
-Processing --> Feedback
+'[业务规划]-down->[账户管理]
+'[账户管理]-down->[财务管理]
+'zhanluenengli-down->hexinnengli
+'hexinnengli-down->zhichinengli 
 
-' 与主要价值流相关的能力
-package "能力: 浏览 & 选择" {
-  rectangle "商品列表管理" as ProductListing
-  rectangle "推荐系统" as Recommendation
 
-  [商品搜索 & 推荐] .down.> ProductListing : utilizes
-  [商品搜索 & 推荐] .down.> Recommendation : utilizes
-}
-
-package "能力: 购物车 & 结账" {
-  rectangle "购物车系统" as CartSystem
-  rectangle "支付网关" as PaymentGateway
-
-  [添加到购物车] .down.> CartSystem : utilizes
-  [在线支付] .down.> PaymentGateway : utilizes
-}
-
-package "能力: 订单处理 & 配送" {
-  rectangle "库存管理" as StockManagement
-  rectangle "物流管理" as LogisticsManagement
-
-  [订单确认 & 库存检查] .down.> StockManagement : utilizes
-  [物流配送] .down.> LogisticsManagement : utilizes
-}
-
-package "能力: 客户服务 & 反馈" {
-  rectangle "客户支持平台" as SupportPlatform
-  rectangle "反馈系统" as FeedbackSystem
-
-  [售后服务] .down.> SupportPlatform : utilizes
-  [客户反馈 & 评价] .down.> FeedbackSystem : utilizes
-}
+'[业务规划]-->[账户管理]
 
 @enduml
