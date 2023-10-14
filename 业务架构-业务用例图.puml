@@ -1,70 +1,40 @@
 @startuml
 left to right direction
-skinparam packageStyle rect
 
-package "电商平台" {
-
-    usecase "浏览商品" as UC1
-    usecase "搜索商品" as UC2
-    usecase "查看商品详情" as UC3
-    usecase "查看卖家信息" as UC4
-    usecase "添加到购物车" as UC5
-    usecase "查看购物车" as UC6
-    usecase "结账购买" as UC7
-    usecase "选择支付方式" as UC8
-    usecase "确认收货" as UC9
-    usecase "查看订单状态" as UC10
-    usecase "查看/管理个人账户" as UC11
-    usecase "留下商品评价" as UC12
-    usecase "参与秒杀/团购活动" as UC13
-    usecase "浏览/使用优惠券" as UC14
-    usecase "申请退款/退货" as UC15
-    usecase "在线客服咨询" as UC16
-    usecase "查看/修改收货地址" as UC17
-
+package "银行系统" {
+  usecase "开设账户" as UC1
+  usecase "转账" as UC2
+  usecase "存款" as UC3
+  usecase "取款" as UC4
+  usecase "查询余额" as UC5
+  usecase "申请贷款" as UC6
+  usecase "设置/更改支付密码" as UC7
+  usecase "在线支付" as UC8
+  usecase "设置账户通知和提醒" as UC9
+  usecase "查看交易历史记录" as UC10
+  usecase "外币兑换" as UC11
 }
 
-'UC7-->UC8
+actor "客户" as A1
+actor "银行员工" as A2
 
-actor "顾客" as Customer
-actor "客服" as Support
-actor "卖家" as Seller
-'actor "支付平台" as PaymentPlatform
+A1 ---> UC1 : 请求
+A1 --> UC2 : 请求
+A1 --> UC3 : 请求
+A1 --> UC4 : 请求
+A1 --> UC5 : 查询
+A1 --> UC6 : 申请
+A1 --> UC7 : 设置
+A1 --> UC8 : 支付
+A1 --> UC9 : 设置
+A1 --> UC10 : 查看
+A1 --> UC11 : 兑换
 
-Customer --> UC1
-Customer --> UC2
-Customer --> UC3
-Customer --> UC4
-Customer --> UC5
-Customer --> UC6
-Customer --> UC7
-Customer --> UC9
-Customer --> UC10
-Customer --> UC11
-Customer --> UC12
-Customer --> UC13
-Customer --> UC14
-Customer --> UC15
-Customer --> UC16
-Customer -------> UC17
-Customer --> UC8 : <<extend>>
+A2 --> UC1 : 执行
+A2 --> UC2 : 执行
+A2 --> UC3 : 协助
+A2 --> UC4 : 协助
+A2 --> UC6 : 审核
+A2 --> UC11 : 协助
 
-/'Seller -left-> UC3
-Seller -left-> UC13
-Seller -left-> UC14
-Seller -left-> UC4'/
-UC13 <--- Seller
-UC14 <--- Seller
-UC4 <--- Seller
-UC3 <--- Seller
-
-UC10 <-- Support
-UC15 <-- Support
-UC16 <-- Support
-
-/'Support --> UC10
-Support --> UC15
-Support --> UC16'/
-
-'PaymentPlatform <-- UC8
 @enduml

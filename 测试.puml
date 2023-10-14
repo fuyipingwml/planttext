@@ -1,86 +1,40 @@
 @startuml
+left to right direction
 
-'title 电商公司业务足迹图
-'参考材料 https://support.unicomsi.com/manuals/systemarchitect/114100/starthelp.html#page/Architecting_and_designing/TOGAF1547834.html
-
-'left to right direction
-package "战略能力" as zhanluenengli{
-  [业务规划]
-[市场规划]
-[伙伴管理]
-[资本管理]
-[政策管理]
-[合规管理]
-[业务规划] -[hidden]-> [市场规划]
-[市场规划]-[hidden]->[伙伴管理]
-[伙伴管理]-[hidden]-> [资本管理]
- [资本管理]-[hidden]->[政策管理]
- [政策管理]-[hidden]->[合规管理]
-
- /'[业务规划] .right.[市场规划]
- [市场规划] .right. [伙伴管理]
-[伙伴管理] .right. [资本管理]
-[资本管理].right.[政策管理]
-[政策管理].right.[合规管理]'/
-
+package "银行系统" {
+  usecase "开设账户" as UC1
+  usecase "转账" as UC2
+  usecase "存款" as UC3
+  usecase "取款" as UC4
+  usecase "查询余额" as UC5
+  usecase "申请贷款" as UC6
+  usecase "设置/更改支付密码" as UC7
+  usecase "在线支付" as UC8
+  usecase "设置账户通知和提醒" as UC9
+  usecase "查看交易历史记录" as UC10
+  usecase "外币兑换" as UC11
 }
 
+actor "客户" as A1
+actor "银行员工" as A2
 
-package "核心能力" as hexinnengli {
-  [账户管理]
-[产品管理]
-[分销管理]
-[客户管理]
-[渠道管理]
-[代理管理]
- [账户管理]-[hidden]-> [产品管理]
- [产品管理]-[hidden]->[分销管理]
- [分销管理]-[hidden]->[客户管理]
- [客户管理]-[hidden]->[渠道管理]
- [渠道管理]-[hidden]->[代理管理]
+A1 ---> UC1 : 请求
+A1 --> UC2 : 请求
+A1 --> UC3 : 请求
+A1 --> UC4 : 请求
+A1 --> UC5 : 查询
+A1 --> UC6 : 申请
+A1 --> UC7 : 设置
+A1 --> UC8 : 支付
+A1 --> UC9 : 设置
+A1 --> UC10 : 查看
+A1 --> UC11 : 兑换
 
-
-/'[账户管理].right.[产品管理]
-[产品管理].right.[分销管理]
-
-[分销管理].right. [客户管理]
-[客户管理].right. [渠道管理]
-[渠道管理].right.[代理管理]'/
-
-}
-
- '[业务规划]-[hidden]->[账户管理]
-package "支持能力" as zhichinengli {
-  [财务管理]
-[人力管理]
-[资产管理]
-[信息管理]
-[培训管理]
-[运营管理]
-[财务管理]-[hidden]-> [人力管理]
-[人力管理]-[hidden]->[资产管理]
-[资产管理]-[hidden]->[信息管理]
-[信息管理]-[hidden]->[培训管理]
-[培训管理]-[hidden]->[运营管理]
-
-/'[人力管理].right.[财务管理]
-[财务管理].right.[资产管理]
-[资产管理].right. [信息管理]
-[信息管理].right.[培训管理]
-[培训管理].right.[运营管理]'/
-
-}
-
-'[账户管理]-[hidden]->[人力管理]
-
-'[财务管理]-[hidden]->[人力资源管理]
-
-'[业务规划]-down->[账户管理]
-'[账户管理]-down->[财务管理]
-'zhanluenengli-down->hexinnengli
-'hexinnengli-down->zhichinengli 
-
-
-'[业务规划]-->[账户管理]
+A2 --> UC1 : 执行
+A2 --> UC2 : 执行
+A2 --> UC3 : 协助
+A2 --> UC4 : 协助
+A2 --> UC6 : 审核
+A2 --> UC11 : 协助
 
 @enduml
