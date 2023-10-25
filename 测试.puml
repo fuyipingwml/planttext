@@ -1,86 +1,35 @@
 @startuml
+!define RECTANGLE package
 
-'title 电商公司业务足迹图
-'参考材料 https://support.unicomsi.com/manuals/systemarchitect/114100/starthelp.html#page/Architecting_and_designing/TOGAF1547834.html
+RECTANGLE "电商应用软件分布图" {
 
-'left to right direction
-package "战略能力" as zhanluenengli{
-  [业务规划]
-[市场规划]
-[伙伴管理]
-[资本管理]
-[政策管理]
-[合规管理]
-[业务规划] -[hidden]-> [市场规划]
-[市场规划]-[hidden]->[伙伴管理]
-[伙伴管理]-[hidden]-> [资本管理]
- [资本管理]-[hidden]->[政策管理]
- [政策管理]-[hidden]->[合规管理]
+  package "云服务器(Cloud Server)" {
+    [用户服务]
+    [商品服务]
+    [支付服务]
+  }
 
- /'[业务规划] .right.[市场规划]
- [市场规划] .right. [伙伴管理]
-[伙伴管理] .right. [资本管理]
-[资本管理].right.[政策管理]
-[政策管理].right.[合规管理]'/
+  package "数据中心(Data Center)" {
+    [库存管理]
+    [订单处理]
+  }
 
-}
+  package "CDN(Content Delivery Network)" {
+    [静态资源]
+  }
 
-
-package "核心能力" as hexinnengli {
-  [账户管理]
-[产品管理]
-[分销管理]
-[客户管理]
-[渠道管理]
-[代理管理]
- [账户管理]-[hidden]-> [产品管理]
- [产品管理]-[hidden]->[分销管理]
- [分销管理]-[hidden]->[客户管理]
- [客户管理]-[hidden]->[渠道管理]
- [渠道管理]-[hidden]->[代理管理]
-
-
-/'[账户管理].right.[产品管理]
-[产品管理].right.[分销管理]
-
-[分销管理].right. [客户管理]
-[客户管理].right. [渠道管理]
-[渠道管理].right.[代理管理]'/
+  [移动应用] --> [用户服务]
+  [网页应用] --> [用户服务]
+  
+  [用户服务] --> [商品服务]
+  [商品服务] --> [支付服务]
+  [支付服务] --> [订单处理]
+  
+  [网页应用] --> [静态资源]
+  [移动应用] --> [静态资源]
+  
+  [库存管理] --> [订单处理]
 
 }
-
- '[业务规划]-[hidden]->[账户管理]
-package "支持能力" as zhichinengli {
-  [财务管理]
-[人力管理]
-[资产管理]
-[信息管理]
-[培训管理]
-[运营管理]
-[财务管理]-[hidden]-> [人力管理]
-[人力管理]-[hidden]->[资产管理]
-[资产管理]-[hidden]->[信息管理]
-[信息管理]-[hidden]->[培训管理]
-[培训管理]-[hidden]->[运营管理]
-
-/'[人力管理].right.[财务管理]
-[财务管理].right.[资产管理]
-[资产管理].right. [信息管理]
-[信息管理].right.[培训管理]
-[培训管理].right.[运营管理]'/
-
-}
-
-'[账户管理]-[hidden]->[人力管理]
-
-'[财务管理]-[hidden]->[人力资源管理]
-
-'[业务规划]-down->[账户管理]
-'[账户管理]-down->[财务管理]
-'zhanluenengli-down->hexinnengli
-'hexinnengli-down->zhichinengli 
-
-
-'[业务规划]-->[账户管理]
 
 @enduml
